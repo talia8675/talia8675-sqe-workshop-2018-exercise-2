@@ -109,7 +109,8 @@ function variableDeclaration(symbolicSubstitution, codeJasonBody, dictionary, in
         let variable = codeJasonBody.declarations[i];
         if(!isVarInDictionary(dictionary, variable.id.name))
             dictionary.push(rowInDictionary(variable.id.name, ''));
-        dictionary[indexVar(dictionary,variable.id.name)].Value = substitutionValue(dictionary, variable.init, inputs,symbolicSubstitution);
+        if(variable.init!=null)
+            dictionary[indexVar(dictionary,variable.id.name)].Value = substitutionValue(dictionary, variable.init, inputs,symbolicSubstitution);
     }
 }
 

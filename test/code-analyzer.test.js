@@ -44,6 +44,17 @@ describe('TEST3 The javascript parser', () => {
                 {Line: '}', Color:'black'}]
         );
     });
+    it('function args=1 and local var', () => {
+        assert.deepEqual(
+            itercode(parseCode('function f(x){' +
+                'let y;'+
+                'y=5;'+
+                'return x+y;}'),parseCode('1')),
+            [{Line: 'function f(x){', Color:'black'},
+                {Line: 'return (x + 5);', Color:'black'},
+                {Line: '}', Color:'black'}]
+        );
+    });
 });
 
 describe('TEST4 The javascript parser', () => {
