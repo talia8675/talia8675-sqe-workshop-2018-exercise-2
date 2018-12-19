@@ -44,6 +44,11 @@ describe('TEST3 The javascript parser', () => {
                 {Line: '}', Color:'black'}]
         );
     });
+
+});
+
+
+describe('TEST The javascript parser', () => {
     it('function args=1 and local var', () => {
         assert.deepEqual(
             itercode(parseCode('function f(x){' +
@@ -56,6 +61,7 @@ describe('TEST3 The javascript parser', () => {
         );
     });
 });
+
 
 describe('TEST4 The javascript parser', () => {
     it('function args=1 and global var', () => {
@@ -331,3 +337,17 @@ describe('TEST17 The javascript parser', () => {
         );
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
