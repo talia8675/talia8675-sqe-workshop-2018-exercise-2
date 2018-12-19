@@ -62,6 +62,17 @@ describe('ifStatement', () => {
     });
 });
 
+let dictionary7=[],inputs7 = [], symbolicSubstitution7 = [];
+ifStatement(symbolicSubstitution7 ,parseCode('if(1){}else if(0){}').body[0],dictionary7,inputs7);
+describe('ifStatement', () => {
+    it('ifStatement', () => {
+        assert.deepEqual(dictionary7, []);
+        assert.deepEqual(inputs7, []);
+        assert.deepEqual(symbolicSubstitution7, [{Line:'if (1){', Color:'green'},{Line:'}', Color:'black'},{Line:'else if (0){', Color:'red'},{Line:'}', Color:'black'}]);
+    });
+});
+
+
 let d = [{Name:'a',Value:7}, {Name:'b',Value:-7}, {Name:'c',Value:'talia'}, {Name:'d',Value:[0,-1,'xxx']}];
 describe('copyDictionary', () => {
     it('copyDictionary', () => {
@@ -80,8 +91,6 @@ describe('indexVar', () => {
         assert.deepEqual(3, indexVar(d, 'd'));
     });
 });
-
-
 
 
 describe('empty function test', () => {
