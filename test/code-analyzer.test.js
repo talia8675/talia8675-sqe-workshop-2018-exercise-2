@@ -1,5 +1,88 @@
 import assert from 'assert';
-import {itercode,parseCode} from '../src/js/code-analyzer';
+import {itercode,parseCode,functionDeclaration,variableDeclaration,expressionStatement,whileStatement, ifStatement} from '../src/js/code-analyzer';
+import {copyDictionary,isVarInDictionary,indexVar} from '../src/js/code-analyzer';
+
+let dictionary1 =[], inputs1 = [], symbolicSubstitution1 = [];
+functionDeclaration(symbolicSubstitution1,parseCode('function f(x,y){}').body[0],dictionary1,inputs1, parseCode('1,2'));
+describe('functionDeclaration', () => {
+    it('functionDeclaration', () => {
+        assert.deepEqual(dictionary1, []);
+        assert.deepEqual(inputs1, [{Name:'x',Value:1},{Name:'y',Value:2}]);
+        assert.deepEqual(symbolicSubstitution1, [{Line:'function f(x, y){', Color:'black'},{Line:'}', Color:'black'}]);
+    });
+});
+
+let dictionary2 =[],inputs2 = [], symbolicSubstitution2 = [];
+variableDeclaration(symbolicSubstitution2 ,parseCode('let e = 7;').body[0],dictionary2,inputs2);
+describe('variableDeclaration', () => {
+    it('variableDeclaration', () => {
+        assert.deepEqual(dictionary2, [{Name:'e',Value:7}]);
+        assert.deepEqual(inputs2, []);
+        assert.deepEqual(symbolicSubstitution2, []);
+    });
+});
+
+let dictionary3 =[],inputs3 = [{Name:'x',Value:1}], symbolicSubstitution3 = [];
+expressionStatement(symbolicSubstitution3 ,parseCode('x=88;').body[0],dictionary3,inputs3);
+describe('expressionStatement', () => {
+    it('expressionStatement', () => {
+        assert.deepEqual(dictionary3, []);
+        assert.deepEqual(inputs3, [{Name:'x',Value:88}]);
+        assert.deepEqual(symbolicSubstitution3, [{Line:'x = 88;', Color:'black'}]);
+    });
+});
+
+let dictionary4=[],inputs4 = [], symbolicSubstitution4 = [];
+functionDeclaration(symbolicSubstitution4 ,parseCode('function f(){return 4;}').body[0],dictionary4,inputs4, parseCode(''));
+describe('returnStatement', () => {
+    it('returnStatement', () => {
+        assert.deepEqual(dictionary4, []);
+        assert.deepEqual(inputs4, []);
+        assert.deepEqual(symbolicSubstitution4, [{Line:'function f(){', Color:'black'},{Line:'return 4;', Color:'black'},{Line:'}', Color:'black'}]);
+    });
+});
+
+let dictionary5=[],inputs5 = [], symbolicSubstitution5 = [];
+whileStatement(symbolicSubstitution5 ,parseCode('while(1){}').body[0],dictionary5,inputs5);
+describe('whileStatement', () => {
+    it('whileStatement', () => {
+        assert.deepEqual(dictionary5, []);
+        assert.deepEqual(inputs5, []);
+        assert.deepEqual(symbolicSubstitution5, [{Line:'while (1){', Color:'black'},{Line:'}', Color:'black'}]);
+    });
+});
+
+let dictionary6=[],inputs6 = [], symbolicSubstitution6 = [];
+ifStatement(symbolicSubstitution6 ,parseCode('if(1){}else{}').body[0],dictionary6,inputs6);
+describe('ifStatement', () => {
+    it('ifStatement', () => {
+        assert.deepEqual(dictionary6, []);
+        assert.deepEqual(inputs6, []);
+        assert.deepEqual(symbolicSubstitution6, [{Line:'if (1){', Color:'green'},{Line:'}', Color:'black'},{Line:'else {', Color:'black'},{Line:'}', Color:'black'}]);
+    });
+});
+
+let d = [{Name:'a',Value:7}, {Name:'b',Value:-7}, {Name:'c',Value:'talia'}, {Name:'d',Value:[0,-1,'xxx']}];
+describe('copyDictionary', () => {
+    it('copyDictionary', () => {
+        assert.deepEqual([{Name:'a',Value:7}, {Name:'b',Value:-7}, {Name:'c',Value:'talia'}, {Name:'d',Value:[0,-1,'xxx']}], copyDictionary(d));
+    });
+});
+describe('isVarInDictionary', () => {
+    it('isVarInDictionary', () => {
+        assert.deepEqual(true, isVarInDictionary(d, 'a'));
+        assert.deepEqual(false, isVarInDictionary(d, 'y'));
+    });
+});
+describe('indexVar', () => {
+    it('indexVar', () => {
+        assert.deepEqual(0, indexVar(d, 'a'));
+        assert.deepEqual(3, indexVar(d, 'd'));
+    });
+});
+
+
+
 
 describe('empty function test', () => {
     it('is parsing an empty function correctly', () => {
@@ -337,17 +420,4 @@ describe('TEST17 The javascript parser', () => {
         );
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 

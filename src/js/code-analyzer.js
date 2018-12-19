@@ -1,7 +1,10 @@
 import * as esprima from 'esprima';
 import * as escodegen from 'escodegen';
 
-export {parseCode,itercode};
+export {parseCode,itercode,functionDeclaration,variableDeclaration,expressionStatement,whileStatement, ifStatement};
+export {copyDictionary,isVarInDictionary,indexVar};
+
+
 const parseCode = (codeToParse) => {//get string of code, ret jason
     return esprima.parseScript(codeToParse);
 };
